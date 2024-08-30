@@ -21,11 +21,10 @@
     /* background-color: white; */
     
 }
-.logoimg img{
-    filter: invert();
-    margin: 10px 0px 0px 20px;
-}
-.playlistimg img{
-    filter: invert();
-    margin: 30px 0px 0px 20px;
+
+.header{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
