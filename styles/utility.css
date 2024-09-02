@@ -4,7 +4,9 @@
 
 ::-webkit-scrollbar {
     width: 12px; /* Width of the scrollbar */
-    background-color: #333; /* Background color of the scrollbar track */
+    background-color: #333; 
+    border-radius: 6px;
+    /* Background color of the scrollbar track */
 }
 
 ::-webkit-scrollbar-thumb {
