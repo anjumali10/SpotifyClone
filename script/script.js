@@ -22,7 +22,10 @@ async function main() {
     for (let index = 0; index < song.length; index++) {
         
         let playlist = document.querySelector(".songs").querySelector("ul")
-        playlist.innerHTML = playlist.innerHTML + `<li>${decodeURIComponent(song[index].replace('http://127.0.0.1:3000/songs/', ""))}</li>`
+        playlist.innerHTML = playlist.innerHTML + `<li class = "cursor"><img class="invert" src="assets/images/song.svg" alt="song">
+                        <div class="info">
+                            <div> ${decodeURIComponent(song[index].replace('http://127.0.0.1:3000/songs/', ""))}</div>
+                    </li>`
         
     }
     console.log(playlist.innerHTML)
