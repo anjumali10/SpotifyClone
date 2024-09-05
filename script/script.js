@@ -64,8 +64,10 @@ async function main() {
             playMusic(e.querySelector('.info').firstElementChild.innerHTML.trim())
         })
     })
+
     currentSong.addEventListener("timeupdate", () => {
         document.querySelector(".songtime").innerHTML = `${secondsToMinutesSeconds(currentSong.currentTime)} / ${secondsToMinutesSeconds(currentSong.duration)}`
+        document.querySelector(".circle").style.left = (currentSong.currentTime / currentSong.duration) * 100 + "%"; 
     })
 
     play.addEventListener("click", ()=>{
@@ -77,6 +79,12 @@ async function main() {
             currentSong.pause()
             play.src = "assets/images/play.svg"
         }
+    })
+
+    document.querySelector(".seekbar").addEventListener("click", e =>{
+        let percent = (e.offsetX / e.target.getBoundingClientRect().width) * 100;
+        document.querySelector(".circle").style.left = percent + "%";
+        currentSong.currentTime = ((currentSong.duration) * percent) / 100
     })
 
 

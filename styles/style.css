@@ -226,3 +226,20 @@
     align-items: center;
     gap: 10px;
 }
+.seekbar{
+    width: 90%;
+    height: 3px;
+    background-color: black;
+    cursor: pointer;
+    position: relative;
+    left: 50px;
+    top: 5px;
+}
+.circle{
+    width: 8px;
+    height: 8px;
+    background-color: black;
+    border-radius: 50px;
+    position: relative;
+    bottom: 2px;
+}
