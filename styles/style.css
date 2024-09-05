@@ -10,7 +10,7 @@
     background-color: #121212;
     color: white;
     width: 100vw;
-    height: 100vh;
+    height: auto;
     display: flex;
 }
 .left{
@@ -19,6 +19,13 @@
     border-radius: 10px;
     background-color: #121212;
     position: relative;
+}
+.logoimg{
+    display: flex;
+    justify-content: space-between;
+}
+.close{
+    display: none;
 }
 .right{
     width: 75vw;
@@ -112,9 +119,16 @@
 .navbuttons img{
     padding: 0px 10px;
 }
+.navbuttons{
+    display: flex;
+    align-items: center;
+}
 .accountbuttons{
     display: flex;
     align-items: center;
+}
+.hamburger{
+    display: none;
 }
 .signup{
     background-color: #121212;
@@ -242,4 +256,35 @@
     border-radius: 50px;
     position: relative;
     bottom: 2px;
+}
+
+@media (max-width : 1300px){
+    .left{
+        width: 98vw;
+        height: 100vh;
+        position: absolute;
+        left: -110%;
+        z-index: 1;
+    }
+    .right{
+        width: 98vw;
+    }
+    .player{
+        width: 85vw;
+    }
+    .nav{
+        padding: 0px;
+    }
+    .songtime{
+        padding-left: 50px;
+    }
+    .seekbar{
+        left: 20px;
+    }
+    .hamburger{
+        display: block;
+    }
+    .close{
+        display: block;
+    }
 }

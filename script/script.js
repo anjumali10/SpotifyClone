@@ -23,10 +23,10 @@ async function getSong() {
     div.innerHTML = htmltext
     let as = div.getElementsByTagName("a")
     for (let a = 0; a < as.length; a++) {
-        if (as[a].href.endsWith(".mp3")){
+        if (as[a].href.endsWith(".mp3")) {
             songs.push(as[a].href)
         }
-        
+
     }
     return songs
 }
@@ -55,9 +55,9 @@ async function main() {
                         <div class="info">
                             <div> ${decodeURIComponent(song[index].replace('http://127.0.0.1:3000/songs/', ""))}</div>
                     </li>`
-        
+
     }
-    
+
     // Attach an event listner to each song
     Array.from(document.querySelector('.songs').getElementsByTagName('li')).forEach(e => {
         e.addEventListener('click', element => {
@@ -65,26 +65,39 @@ async function main() {
         })
     })
 
+    // Attach an event listner to change song time
     currentSong.addEventListener("timeupdate", () => {
         document.querySelector(".songtime").innerHTML = `${secondsToMinutesSeconds(currentSong.currentTime)} / ${secondsToMinutesSeconds(currentSong.duration)}`
-        document.querySelector(".circle").style.left = (currentSong.currentTime / currentSong.duration) * 100 + "%"; 
+        document.querySelector(".circle").style.left = (currentSong.currentTime / currentSong.duration) * 100 + "%";
     })
 
-    play.addEventListener("click", ()=>{
-        if (currentSong.paused){
+    // Attach an event listner to play button
+    play.addEventListener("click", () => {
+        if (currentSong.paused) {
             currentSong.play()
             play.src = "assets/images/pause.svg"
         }
-        else{
+        else {
             currentSong.pause()
             play.src = "assets/images/play.svg"
         }
     })
 
-    document.querySelector(".seekbar").addEventListener("click", e =>{
+    // Attach an event listner to seekbar
+    document.querySelector(".seekbar").addEventListener("click", e => {
         let percent = (e.offsetX / e.target.getBoundingClientRect().width) * 100;
         document.querySelector(".circle").style.left = percent + "%";
         currentSong.currentTime = ((currentSong.duration) * percent) / 100
+    })
+
+    // Attach an event listner to hamburger
+    document.querySelector(".hamburger").addEventListener("click", () => {
+        document.querySelector(".left").style.left = 0 + "%"
+    })
+
+    // Attach an event listner to close button
+    document.querySelector(".close").addEventListener("click", () => {
+        document.querySelector(".left").style.left = -110 + "%"
     })
 
 
