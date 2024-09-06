@@ -1,5 +1,7 @@
 console.log('initialize console...')
 let currentSong = new Audio()
+let song
+
 
 function secondsToMinutesSeconds(seconds) {
     if (isNaN(seconds) || seconds < 0) {
@@ -43,7 +45,7 @@ const playMusic = (track, pause = false) => {
 
 // let song = await getSong()
 async function main() {
-    let song = await getSong()
+    song = await getSong()
 
     playMusic(decodeURI(song[0].replace('http://127.0.0.1:3000/songs/', '')), true)
 
@@ -58,20 +60,20 @@ async function main() {
 
     }
 
-    // Attach an event listner to each song
+    // Attach an event listener to each song
     Array.from(document.querySelector('.songs').getElementsByTagName('li')).forEach(e => {
         e.addEventListener('click', element => {
             playMusic(e.querySelector('.info').firstElementChild.innerHTML.trim())
         })
     })
 
-    // Attach an event listner to change song time
+    // Attach an event listenerr to change song time
     currentSong.addEventListener("timeupdate", () => {
         document.querySelector(".songtime").innerHTML = `${secondsToMinutesSeconds(currentSong.currentTime)} / ${secondsToMinutesSeconds(currentSong.duration)}`
         document.querySelector(".circle").style.left = (currentSong.currentTime / currentSong.duration) * 100 + "%";
     })
 
-    // Attach an event listner to play button
+    // Attach an event listenerr to play button
     play.addEventListener("click", () => {
         if (currentSong.paused) {
             currentSong.play()
@@ -83,23 +85,40 @@ async function main() {
         }
     })
 
-    // Attach an event listner to seekbar
+    // Attach an event listener to seekbar
     document.querySelector(".seekbar").addEventListener("click", e => {
         let percent = (e.offsetX / e.target.getBoundingClientRect().width) * 100;
         document.querySelector(".circle").style.left = percent + "%";
         currentSong.currentTime = ((currentSong.duration) * percent) / 100
     })
 
-    // Attach an event listner to hamburger
+    // Attach an event listener to hamburger
     document.querySelector(".hamburger").addEventListener("click", () => {
         document.querySelector(".left").style.left = 0 + "%"
     })
 
-    // Attach an event listner to close button
+    // Attach an event listener to close button
     document.querySelector(".close").addEventListener("click", () => {
         document.querySelector(".left").style.left = -110 + "%"
     })
 
+    // Attach an event listener to previous song button
+    previous_song.addEventListener("click", ()=>{
+        let index = song.indexOf(currentSong.src)
+        if ((index - 1) >= 0){
+            currentSong.pause()
+            playMusic(song[index - 1].split("songs/")[1])
+        }
+    })
+
+    // Attach an event listener to next song button
+    next_song.addEventListener("click", ()=>{
+        let index = song.indexOf(currentSong.src)
+        if ((index + 1) < song.length){
+            currentSong.pause()
+            playMusic(song[index + 1].split("songs/")[1])
+        }
+    })
 
 }
 main()

@@ -288,3 +288,11 @@
         display: block;
     }
 }
+@media (max-width : 442px) {
+    .card{
+        width: 330px;
+    }
+    .right{
+        width: 100vw;
+    }
+}
