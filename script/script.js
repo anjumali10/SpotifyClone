@@ -119,6 +119,9 @@ async function main() {
             playMusic(song[index + 1].split("songs/")[1])
         }
     })
+    document.querySelector(".range").addEventListener("change", (e)=>{
+        currentSong.volume = (e.target.value) / 100
+    })
 
 }
 main()

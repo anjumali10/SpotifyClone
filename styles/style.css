@@ -228,10 +228,8 @@
     text-overflow: ellipsis;
 }
 .songtime{
-    width: 30%;
     color: black;
     font-size: 10px;
-    padding-left: 100px;
 }
 .playerbuttons{
     width: 30%;
@@ -257,6 +255,25 @@
     position: relative;
     bottom: 2px;
 }
+.timevol{
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.vol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.range{
+    width: 70px;
+    cursor: pointer;
+    background: orange;
+}
+
+
 
 @media (max-width : 1300px){
     .left{
