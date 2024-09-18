@@ -1,6 +1,6 @@
 console.log('initialize console...')
 let currentSong = new Audio()
-let song
+let songs
 let currFolder
 
 
@@ -20,7 +20,7 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSong(folder) {
     currFolder = folder
-    let songs = []
+    songs = []
     let response = await fetch(`http://127.0.0.1:3000/songs/${currFolder}`)
     let htmltext = await response.text()
     let div = document.createElement("div")
@@ -48,7 +48,6 @@ async function getSong(folder) {
             playMusic(`/songs/${currFolder}/${encodeURI(e.querySelector('.info').firstElementChild.innerHTML.trim())}`)
         })
     })
-    return songs
 }
 
 const playMusic = (track, pause = false) => {
@@ -61,12 +60,55 @@ const playMusic = (track, pause = false) => {
     document.querySelector('.songtime').innerHTML = '00:00/00:00'
 }
 
+async function displayAlbums() {
+    console.log("displaying albums")
+    let a = await fetch(`/songs/`)
+    let response = await a.text();
+    let div = document.createElement("div")
+    div.innerHTML = response;
+    let anchors = div.getElementsByTagName("a")
+    let cardContainer = document.querySelector(".cardcontainer")
+    let array = Array.from(anchors)
+    for (let index = 0; index < array.length; index++) {
+        const e = array[index]; 
+        if (e.href.includes("/songs") && !e.href.includes(".htaccess")) {
+            let folder = e.href.split("/").slice(-2)[0]
+            // Get the metadata of the folder
+            let a = await fetch(`/songs/${folder}/info.json`)
+            let response = await a.json(); 
+            cardContainer.innerHTML = cardContainer.innerHTML + ` <div data-folder = "${folder}" class="card cursor">
+                        <div class="playbutton">
+                            <svg data-encore-id="icon" role="img" width="25" aria-hidden="true" viewBox="0 0 24 24"
+                                class="Svg-sc-ytk21e-0 bneLcE">
+                                <path
+                                    d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z">
+                                </path>
+                            </svg>
+                        </div>
+                        <img src="/songs/${folder}/cover.jpeg" alt="img">
+                        <h6>${response.description}</h6>
+                    </div>`
+        }
+    }
+    // Attach event listener to cards
+   Array.from(document.getElementsByClassName("card")).forEach(e => {
+    e.addEventListener('click', async item => {
+        folder = item.currentTarget.dataset.folder
+        await getSong(folder)
+        playMusic(decodeURI(songs[0]))
+        
+    })
+})
+}
+
 // let song = await getSong()
 async function main() {
     let folder = 'siraiki'
-    song = await getSong(folder)
+    await getSong(folder)
 
-    playMusic(song[0], true)
+    playMusic(songs[0], true)
+
+    await displayAlbums()
 
     // Attach an event listenerr to change song time
     currentSong.addEventListener("timeupdate", () => {
@@ -105,19 +147,19 @@ async function main() {
 
     // Attach an event listener to previous song button
     previous_song.addEventListener("click", ()=>{
-        let index = song.indexOf(currentSong.src)
+        let index = songs.indexOf(currentSong.src)
         if ((index - 1) >= 0){
             currentSong.pause()
-            playMusic(song[index - 1])
+            playMusic(songs[index - 1])
         }
     })
 
     // Attach an event listener to next song button
     next_song.addEventListener("click", ()=>{
-        let index = song.indexOf(currentSong.src)
-        if ((index + 1) < song.length){
+        let index = songs.indexOf(currentSong.src)
+        if ((index + 1) < songs.length){
             currentSong.pause()
-            playMusic(song[index + 1])
+            playMusic(songs[index + 1])
         }
     })
 
@@ -126,14 +168,5 @@ async function main() {
         currentSong.volume = (e.target.value) / 100
     })
 
-    // Attach event listener to cards
-   Array.from(document.getElementsByClassName("card")).forEach(e => {
-        e.addEventListener('click', async item => {
-            folder = item.currentTarget.dataset.folder
-            let songs = await getSong(folder)
-            playMusic(decodeURI(songs[0]))
-            
-        })
-    })
 }
 main()
